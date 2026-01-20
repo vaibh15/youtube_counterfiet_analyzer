@@ -203,14 +203,6 @@ Research-driven analysis of counterfeit risk in YouTube videos using AI.
 
 
 
-st.markdown("""
-## **PRAMAAN – Image-based Counterfeit Risk Analyzer**
-
-Upload a product image or provide a **direct image URL**.
-The system estimates counterfeit risk based on **visual indicators only**.
-""")
-
-
 youtube_url = st.text_input(
     "Paste YouTube Video URL",
     placeholder="https://www.youtube.com/watch?v=XXXXXXXX"
