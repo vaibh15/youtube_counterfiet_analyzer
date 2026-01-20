@@ -9,18 +9,33 @@ import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
 from urllib.parse import urlparse, parse_qs
-
 from googleapiclient.discovery import build
 from openai import OpenAI
 
 # ==================================================
 # 1. ENV SETUP
 # ==================================================
-load_dotenv()
+#load_dotenv()
+#Load secrets
+def load_secrets(file_path="secrets.txt"):
+    secrets = {}
+    with open(file_path, "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            key, value = line.split("=", 1)
+            secrets[key.strip()] = value.strip()
+    return secrets
 
-YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-YOUTUBE_TRANSCRIPT_API_KEY = os.getenv("YOUTUBE_TRANSCRIPT_API_KEY")
+#secrets = load_secrets()
+YOUTUBE_API_KEY = st.secrets["YOUTUBE_API_KEY"]
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+YOUTUBE_TRANSCRIPT_API_KEY = st.secrets["YOUTUBE_TRANSCRIPT_API_KEY"]
+
+#YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
+#OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+#YOUTUBE_TRANSCRIPT_API_KEY = os.getenv("YOUTUBE_TRANSCRIPT_API_KEY")
 
 if not YOUTUBE_API_KEY:
     raise ValueError("Missing YOUTUBE_API_KEY")
@@ -171,10 +186,11 @@ Transcript:
 # ==================================================
 # 3. STREAMLIT UI
 # ==================================================
-st.set_page_config(page_title="PRAMAAN – AI-Based Counterfeit Risk Analysis for YouTube Videos", layout="centered")
 
-col_left, col_center, col_right = st.columns([1, 1, 1])
-
+st.set_page_config(
+    page_title="PRAMAAN – AI-Based Counterfeit Risk Analysis for YouTube Videos",
+    layout="centered"
+)
 
 
 st.markdown("""
